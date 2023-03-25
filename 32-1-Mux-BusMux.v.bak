@@ -1,0 +1,47 @@
+module 32to1MuxBusMux(
+// 32 to 1 Mux BusMux input signals
+input wire [31:0]BusMuxin-R0, [31:0]BusMuxin-R1, [31:0]BusMuxin-R2, [31:0]BusMuxin-R3, [31:0]BusMuxin-R4, [31:0]BusMuxin-R5, [31:0]BusMuxin-R6, [31:0]BusMuxin-R7, 
+[31:0]BusMuxin-R8, [31:0]BusMuxin-R9, [31:0]BusMuxin-R10, [31:0]BusMuxin-R11, [31:0]BusMuxin-R12, [31:0]BusMuxin-R13, [31:0]BusMuxin-R14, [31:0]BusMuxin-R15, 
+[31:0]BusMuxin-HI, [31:0]BusMuxin-LO, [31:0]BusMuxin-Zhigh, [31:0]BusMuxin-Zlow, [31:0]BusMuxin-PC, [31:0]BusMuxin-MDR, [31:0]BusMuxin-InPort, [31:0]BusMuxin-C;
+
+// Input as a 5-bit select signal
+input wire [4:0]Sel;
+
+// Output as a 32-bit wire
+output reg [31:0] Q;
+
+);
+
+// 23 cases for the 32 to 1 Mux BusMux to 1 output wire
+always @ (*) begin
+       case (Sel)
+              5'b00000: Q <= BusMuxin-R0;
+              5'b00001: Q <= BusMuxin-R1;
+              5'b00010: Q <= BusMuxin-R2;
+              5'b00011: Q <= BusMuxin-R3;
+              5'b00100: Q <= BusMuxin-R4;
+              5'b00101: Q <= BusMuxin-R5;
+              5'b00110: Q <= BusMuxin-R6;
+              5'b00111: Q <= BusMuxin-R7;
+              5'b01000: Q <= BusMuxin-R8;
+              5'b01001: Q <= BusMuxin-R9;
+              5'b01010: Q <= BusMuxin-R10;
+              5'b01011: Q <= BusMuxin-R11;
+              5'b01100: Q <= BusMuxin-R12;
+              5'b01101: Q <= BusMuxin-R13;
+              5'b01110: Q <= BusMuxin-R14;
+              5'b01111: Q <= BusMuxin-R15;
+              5'b10000: Q <= BusMuxin-HI;
+              5'b10001: Q <= BusMuxin-LO;
+              5'b10010: Q <= BusMuxin-Zhigh;
+              5'b10011: Q <= BusMuxin-Zlow;
+              5'b10100: Q <= BusMuxin-PC;
+              5'b10101: Q <= BusMuxin-MDR;
+              5'b10110: Q <= BusMuxin-InPort;
+              5'b10111: Q <= BusMuxin-C;
+              default: Q <= 32'b0;
+       endcase
+       end
+
+endmodule
+

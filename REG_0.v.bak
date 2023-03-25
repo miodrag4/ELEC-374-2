@@ -1,0 +1,17 @@
+module REG_0(
+	 input clk,
+    input clear,
+    input enable,
+    input wire [31:0] D,
+	 input wire BAout,
+	 output wire[31:0] Dout
+	 );
+	 output wire[31:0] Q,
+	 
+	 REG_32 R0 (clock, clear, R0in, D, Q);
+	 
+	 assign Dout = (~BAout & Q); // Could be wrong, might have to change to BAout ? 0 : Q
+	 
+	 
+endmodule 
+	 

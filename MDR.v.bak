@@ -1,0 +1,30 @@
+// Memory data register (MDR) is a 32-bit register with MUX to select between input fro the bus or memory chip
+module MDR ( 
+    input clear, clk, MDRin, [31:0]BusMuxOut, [31:0]Mdatain, Read;
+    output [31:0]BusMuxin-MDR
+);
+    input [31:0]D;
+    output [31:0]Q;
+//update its value on the positive edge of the clock signal
+   if always @ (posedge clk)
+        begin 
+            //source of the data is controlled by the Read
+            if (read) begin
+                D <= Mdatain;
+            end
+            
+            else begin
+                D <= BusMuxOut;
+            end
+
+            if (clear) begin
+                Q <= 32'b0;
+            end
+
+            else if (MDRin) begin
+                Q <= D;
+            end
+        end
+         
+    assign BusMuxin-MDR = Q;
+endmodule

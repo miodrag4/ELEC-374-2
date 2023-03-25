@@ -1,0 +1,35 @@
+Project Plan
+
+Phase 1:
+    Step 1. Design the registers R0 to R15, PC, IR, Y, Z, MAR, HI, and LO (see Figures 1 and 2).
+    - Sixteen 32 bit registers R0 - R16 for Mini SRC
+    - Two dedicated 32 bit instruction registers HI and LO for holding multiplication and division
+    - One 32 bit instruction register IR
+    - One 32 bit program counter PC that points to the next instruction after execution
+    - Y register is a 32 bit temp register that holds ALU input A
+    - Z is a 64 bit and holds the result of the 
+
+    Step 2. Design the bidirectional Bus (Figure 3) and connect the registers that you designed in Step 1 to the Bus.
+
+    Step 3. Design the MDR unit (Figure 4) and connect it to the BUS. Leave the rest of the Memory Subsystem
+    (connection to the memory chip) for Phase 2.
+
+    Step 4. Design your ALU. Start with simple ALU operations such as logical AND, etc. Then, design the more
+    involved operations such as ADD/SUB, MUL, and DIV circuitry. Finally, design the rest of the ALU
+    operations.
+        • For the multiplication unit, you are to design your own 32x32 Booth algorithm with bit-pair
+        recoding of multiplier.
+        • You are welcome to design and simulate any other advanced design techniques that you
+        learned in class for a bonus mark. 
+
+Notes for Phase 1:
+    - Verify submodules are setup correctly. (1)
+        - Git
+        - ChatGPT
+        - Drive
+        
+    - Look at how to connect everything to the Bus. (2)
+    - Design the MDR unit. (3)
+    - Design ALU (4)
+
+Phase 2:

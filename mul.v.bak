@@ -1,0 +1,39 @@
+// Simulating the Control Sequence for the logical mul R6, R7 instruction using a 32x32 Booth algorithm with bit-pair recoding of multiplier
+Module multiplier(A, B, C);
+input [31:0] A;
+input [31:0] B;
+output [63:0] C;
+output wire [31:0] Mulout;
+integer i;
+
+reg [31:0] BoothSign_Ext;
+
+//"A_neg" is introduced to store the two's complement representation of 
+//the negative of the input "A". The negative of "A" is computed using 
+//the expression (~A + 1), which flips all the bits of "A" and then adds 
+//1 to obtain the two's complement representation of the negative.
+reg [31:0] A_neg;
+
+always @ (A or B) begin
+  C = 31'b0;
+  A_neg = (~A + 1);
+  //"B" is sign-extended and stored in a register "BoothSign_Ext".
+  BoothSign_Ext = {B[31], B[31:0], 1'b0};
+  //"A" is replaced by the addition/subtraction of "A" or "A_neg", depending 
+  //on the value of the three bits extracted from "BoothSign_Ext"
+    for (i = 0; i < 31; i = i + 1) begin
+        case (BoothSign_Ext[i+2:i])
+            3'b000: C = C + (A << i);
+            3'b001: C = C + (A << i);
+            3'b010: C = C + (A << i);
+            3'b011: C = C + (A << i);
+            3'b100: C = C + (A_neg << i);
+            3'b101: C = C + (A_neg << i);
+            3'b110: C = C + (A_neg << i);
+            3'b111: C = C + (A_neg << i);
+            default : C = C;
+        endcase
+    end
+end
+output wire [63:0] Mulout;
+endmodule

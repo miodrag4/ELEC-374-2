@@ -1,0 +1,61 @@
+`timescale 1ns/10ps
+
+//Non restoring division algorithm
+module NonRestoringDivisionAlgorithim(
+	input signed [31:0] Dividend,
+  input signed [31:0] M, // Divisor
+	output wire [31:0] Q, // Quotient
+  output wire [31:0] R // Remainder
+);
+
+reg [32:0] A;
+wire [31:0] TwosCompliment;
+integer i;
+assign TwosCompliment =  ~M + 1;
+
+// Divison register.
+reg signed [64:0] temp;
+// 32 bit register.
+initial A = 32'b00000000000000000000000000000000;
+
+always @(*)
+    begin
+      // Concatenates the 32 bit register with the 32 bit dividend.
+			temp = {A, Dividend};
+      // Performs the 32 bit division algorithm.
+          for(i=0;i<32;i=i+1) begin
+            // Shifts the 64 bit register left by 1 bit.
+						temp = temp << 1;
+            // Checks if th A value is >= to zero.
+						if(temp[64] == 0) begin
+              // Performs subtractions on the upper 32 bits of the 64 bit register
+							temp[64:32] = temp[64:32] - M; 
+              // Sets the q0 bit to 1
+              temp[0] = 1;
+						end
+            // Otherwise add M to A
+						else begin 
+              // Performs additions on the upper 32 bits of the 64 bit register
+							temp[64:32] = temp[64:32] + M;
+              // Sets the q0 bit to 0
+							temp[0] = 0;
+						end
+            // Checks if the last bit is equal to 0.
+						if(temp[64] == 0) begin
+              // Sets the q0 bit to 1 if it is.
+              temp[0] = 1;
+            end
+						else begin 
+              // Sets the q0 bit to 0 if it is not 1.
+              temp[0] = 0;
+            end
+     end
+// Assigns the remainder to the upper 32 bits of the 64 bit register.
+assign R = temp[63:32];
+// Assigns the quotient to the lower 32 bits of the 64 bit register.
+assign Q = temp[31:0];
+// Concentates the remainder and quotient to the 64 bit register.
+Divout = {Q, R};
+// Outputs the 64 bit register.
+output wire [63:0] Divout;
+endmodule

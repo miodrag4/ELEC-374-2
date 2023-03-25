@@ -1,0 +1,123 @@
+module bus(
+    input wire clk, clear;
+    input wire R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, 
+    R12out, R13out, R14out, R15out, HIout, LOout, Zhighout, Zlowout, PCout, MDRout, InPortout, Cout;);
+
+wire [31:0]BusMuxin-R0, [31:0]BusMuxin-R1, [31:0]BusMuxin-R2, [31:0]BusMuxin-R3, [31:0]BusMuxin-R4, [31:0]BusMuxin-R5, [31:0]BusMuxin-R6, [31:0]BusMuxin-R7, 
+[31:0]BusMuxin-R8, [31:0]BusMuxin-R9, [31:0]BusMuxin-R10, [31:0]BusMuxin-R11, [31:0]BusMuxin-R12, [31:0]BusMuxin-R13, [31:0]BusMuxin-R14, [31:0]BusMuxin-R15, 
+[31:0]BusMuxin-HI, [31:0]BusMuxin-LO, [31:0]BusMuxin-Zhigh, [31:0]BusMuxin-Zlow, [31:0]BusMuxin-PC, [31:0]BusMuxin-MDR, [31:0]BusMuxin-InPort, [31:0]BusMuxin-C;
+
+wire [31:0] BusMuxOut-Q;
+wire [4:0] BusMuxin-Sel;
+input [4:0] Encoderout-Sel;
+output [31:0] Encoderin-Q;
+
+32to1MuxBusMux Mux [31:0]BusMuxin-R0, [31:0]BusMuxin-R1, [31:0]BusMuxin-R2, [31:0]BusMuxin-R3, [31:0]BusMuxin-R4, [31:0]BusMuxin-R5, [31:0]BusMuxin-R6, [31:0]BusMuxin-R7, 
+[31:0]BusMuxin-R8, [31:0]BusMuxin-R9, [31:0]BusMuxin-R10, [31:0]BusMuxin-R11, [31:0]BusMuxin-R12, [31:0]BusMuxin-R13, [31:0]BusMuxin-R14, [31:0]BusMuxin-R15, 
+[31:0]BusMuxin-HI, [31:0]BusMuxin-LO, [31:0]BusMuxin-Zhigh, [31:0]BusMuxin-Zlow, [31:0]BusMuxin-PC, [31:0]BusMuxin-MDR, [31:0]BusMuxin-InPort, [31:0]BusMuxin-C, Q, Sel ;)
+
+
+32-1-Mux-BusMux Mux (BusMuxin-R0, BusMuxin-R1, BusMuxin-R2, BusMuxin-R3, BusMuxin-R4, BusMuxin-R5, BusMuxin-R6, BusMuxin-R7, BusMuxin-R8, 
+BusMuxin-R9, BusMuxin-R10, BusMuxin-R11, BusMuxin-R12, BusMuxin-R13, BusMuxin-R14, BusMuxin-R15, BusMuxin-HI, BusMuxin-LO, BusMuxin-Zhigh, 
+BusMuxin-Zlow, BusMuxin-PC, BusMuxin-MDR, BusMuxin-InPort, BusMuxin-C, Q, Sel);
+
+32-to-5-Encoder Encoder (Encoderin-Q, Encoderout-Sel);
+
+REG_32 R0 (clock, clear, R0out, BusMuxOut, BusMuxin-R0);
+REG_32 R1 (clock, clear, R1out, BusMuxOut, BusMuxin-R1);
+REG_32 R2 (clock, clear, R2out, BusMuxOut, BusMuxin-R2);
+REG_32 R3 (clock, clear, R3out, BusMuxOut, BusMuxin-R3);
+REG_32 R4 (clock, clear, R4out, BusMuxOut, BusMuxin-R4);
+REG_32 R5 (clock, clear, R5out, BusMuxOut, BusMuxin-R5);
+REG_32 R6 (clock, clear, R6out, BusMuxOut, BusMuxin-R6);
+REG_32 R7 (clock, clear, R7out, BusMuxOut, BusMuxin-R7);
+REG_32 R8 (clock, clear, R8out, BusMuxOut, BusMuxin-R8);
+REG_32 R9 (clock, clear, R9out, BusMuxOut, BusMuxin-R9);
+REG_32 R10 (clock, clear, R10out, BusMuxOut, BusMuxin-R10);
+REG_32 R11 (clock, clear, R11out, BusMuxOut, BusMuxin-R11);
+REG_32 R12 (clock, clear, R12out, BusMuxOut, BusMuxin-R12);
+REG_32 R13 (clock, clear, R13out, BusMuxOut, BusMuxin-R13);
+REG_32 R14 (clock, clear, R14out, BusMuxOut, BusMuxin-R14);
+REG_32 R15 (clock, clear, R15out, BusMuxOut, BusMuxin-R15);
+REG_32 HI (clock, clear, HIout, BusMuxOut, BusMuxin-HI);
+REG_32 LO (clock, clear, LOout, BusMuxOut, BusMuxin-LO);
+REG_32 Zhigh (clock, clear, Zhighout, BusMuxOut, BusMuxin-Zhigh);
+REG_32 Zlow (clock, clear, Zlowout, BusMuxOut, BusMuxin-Zlow);
+REG_32 PC (clock, clear, PCout, BusMuxOut, BusMuxin-PC);
+REG_32 MDR (clock, clear, MDRout, BusMuxOut, BusMuxin-MDR);
+REG_32 InPort (clock, clear, InPortout, BusMuxOut, BusMuxin-InPort);
+REG_32 C (clock, clear, Cout, BusMuxOut, BusMuxin-C);
+
+REG_32 Q (clock, clear, Qout, Encoderout, Encoderin);
+REG_32 MAR (clock, clear, MARout, Encoderout, Encoderin);
+REG_32 IR (clock, clear, IRout, Encoderout, Encoderin);
+endmodule
+
+
+// module bus(
+// input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out,
+// R9out, R10out, R11out, R12out, R13out, R14out, R15out, HIout, LOout, Zhighout,
+// Zlowout, PCout, MDRout, InPortout, Cout,
+// input [31:0] Q,
+// output [31:0] BusMuxOut,
+// output [4:0] Sel
+// );
+
+// 32-to-1Mux mux (.R0out(R0out),
+// .R1out(R1out),
+// .R2out(R2out),
+// .R3out(R3out),
+// .R4out(R4out),
+// .R5out(R5out),
+// .R6out(R6out),
+// .R7out(R7out),
+// .R8out(R8out),
+// .R9out(R9out),
+// .R10out(R10out),
+// .R11out(R11out),
+// .R12out(R12out),
+// .R13out(R13out),
+// .R14out(R14out),
+// .R15out(R15out),
+// .HIout(HIout),
+// .LOout(LOout),
+// .Zhighout(Zhighout),
+// .Zlowout(Zlowout),
+// .PCout(PCout),
+// .MDRout(MDRout),
+// .InPortout(InPortout),
+// .Cout(Cout),
+// .Sel(Sel),
+// .Out(Out)
+// );
+
+// 32-to-5Encoder encoder (
+// .R0out(R0out),
+// .R1out(R1out),
+// .R2out(R2out),
+// .R3out(R3out),
+// .R4out(R4out),
+// .R5out(R5out),
+// .R6out(R6out),
+// .R7out(R7out),
+// .R8out(R8out),
+// .R9out(R9out),
+// .R10out(R10out),
+// .R11out(R11out),
+// .R12out(R12out),
+// .R13out(R13out),
+// .R14out(R14out),
+// .R15out(R15out),
+// .HIout(HIout),
+// .LOout(LOout),
+// .Zhighout(Zhighout),
+// .Zlowout(Zlowout),
+// .PCout(PCout),
+// .MDRout(MDRout),
+// .InPortout(InPortout),
+// .Cout(Cout),
+// .Q(Q),
+// .Sel(Sel)
+// );
+
+// endmodule
